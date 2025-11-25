@@ -1,0 +1,460 @@
+{
+  "overview": {
+    "total_bridges": 45,
+    "avg_progress": 56,
+    "open_issues": 18,
+    "non_compliant_safeguards": 4
+  },
+  "bridges": [
+    {
+      "id": 1,
+      "name": "BR-001 River Bridge",
+      "district": "Dehradun",
+      "progress": 0,
+      "status": "On Track",
+      "budget_allocated": 150,
+      "budget_used": 120,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 2,
+      "name": "BR-002 River Bridge",
+      "district": "Haridwar",
+      "progress": 7,
+      "status": "On Track",
+      "budget_allocated": 155,
+      "budget_used": 124,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 3,
+      "name": "BR-003 River Bridge",
+      "district": "Pauri",
+      "progress": 14,
+      "status": "On Track",
+      "budget_allocated": 160,
+      "budget_used": 128,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 4,
+      "name": "BR-004 River Bridge",
+      "district": "Tehri",
+      "progress": 21,
+      "status": "On Track",
+      "budget_allocated": 165,
+      "budget_used": 132,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 5,
+      "name": "BR-005 River Bridge",
+      "district": "Nainital",
+      "progress": 28,
+      "status": "On Track",
+      "budget_allocated": 170,
+      "budget_used": 136,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 6,
+      "name": "BR-006 River Bridge",
+      "district": "Almora",
+      "progress": 35,
+      "status": "On Track",
+      "budget_allocated": 175,
+      "budget_used": 140,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 7,
+      "name": "BR-007 River Bridge",
+      "district": "Uttarkashi",
+      "progress": 42,
+      "status": "On Track",
+      "budget_allocated": 180,
+      "budget_used": 144,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 8,
+      "name": "BR-008 River Bridge",
+      "district": "Dehradun",
+      "progress": 49,
+      "status": "On Track",
+      "budget_allocated": 185,
+      "budget_used": 148,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 9,
+      "name": "BR-009 River Bridge",
+      "district": "Haridwar",
+      "progress": 56,
+      "status": "On Track",
+      "budget_allocated": 190,
+      "budget_used": 152,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 10,
+      "name": "BR-010 River Bridge",
+      "district": "Pauri",
+      "progress": 63,
+      "status": "On Track",
+      "budget_allocated": 195,
+      "budget_used": 156,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 11,
+      "name": "BR-011 River Bridge",
+      "district": "Tehri",
+      "progress": 70,
+      "status": "On Track",
+      "budget_allocated": 200,
+      "budget_used": 160,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 12,
+      "name": "BR-012 River Bridge",
+      "district": "Nainital",
+      "progress": 77,
+      "status": "On Track",
+      "budget_allocated": 205,
+      "budget_used": 164,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 13,
+      "name": "BR-013 River Bridge",
+      "district": "Almora",
+      "progress": 84,
+      "status": "On Track",
+      "budget_allocated": 210,
+      "budget_used": 168,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 14,
+      "name": "BR-014 River Bridge",
+      "district": "Uttarkashi",
+      "progress": 91,
+      "status": "On Track",
+      "budget_allocated": 215,
+      "budget_used": 172,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 15,
+      "name": "BR-015 River Bridge",
+      "district": "Dehradun",
+      "progress": 98,
+      "status": "On Track",
+      "budget_allocated": 220,
+      "budget_used": 176,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 16,
+      "name": "BR-016 River Bridge",
+      "district": "Haridwar",
+      "progress": 5,
+      "status": "On Track",
+      "budget_allocated": 225,
+      "budget_used": 180,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 17,
+      "name": "BR-017 River Bridge",
+      "district": "Pauri",
+      "progress": 12,
+      "status": "On Track",
+      "budget_allocated": 230,
+      "budget_used": 184,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 18,
+      "name": "BR-018 River Bridge",
+      "district": "Tehri",
+      "progress": 19,
+      "status": "On Track",
+      "budget_allocated": 235,
+      "budget_used": 188,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 19,
+      "name": "BR-019 River Bridge",
+      "district": "Nainital",
+      "progress": 26,
+      "status": "On Track",
+      "budget_allocated": 240,
+      "budget_used": 192,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 20,
+      "name": "BR-020 River Bridge",
+      "district": "Almora",
+      "progress": 33,
+      "status": "On Track",
+      "budget_allocated": 245,
+      "budget_used": 196,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 21,
+      "name": "BR-021 River Bridge",
+      "district": "Uttarkashi",
+      "progress": 40,
+      "status": "On Track",
+      "budget_allocated": 250,
+      "budget_used": 200,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 22,
+      "name": "BR-022 River Bridge",
+      "district": "Dehradun",
+      "progress": 47,
+      "status": "On Track",
+      "budget_allocated": 255,
+      "budget_used": 204,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 23,
+      "name": "BR-023 River Bridge",
+      "district": "Haridwar",
+      "progress": 54,
+      "status": "On Track",
+      "budget_allocated": 260,
+      "budget_used": 208,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 24,
+      "name": "BR-024 River Bridge",
+      "district": "Pauri",
+      "progress": 61,
+      "status": "On Track",
+      "budget_allocated": 265,
+      "budget_used": 212,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 25,
+      "name": "BR-025 River Bridge",
+      "district": "Tehri",
+      "progress": 68,
+      "status": "On Track",
+      "budget_allocated": 270,
+      "budget_used": 216,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 26,
+      "name": "BR-026 River Bridge",
+      "district": "Nainital",
+      "progress": 75,
+      "status": "On Track",
+      "budget_allocated": 275,
+      "budget_used": 220,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 27,
+      "name": "BR-027 River Bridge",
+      "district": "Almora",
+      "progress": 82,
+      "status": "On Track",
+      "budget_allocated": 280,
+      "budget_used": 224,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 28,
+      "name": "BR-028 River Bridge",
+      "district": "Uttarkashi",
+      "progress": 89,
+      "status": "On Track",
+      "budget_allocated": 285,
+      "budget_used": 228,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 29,
+      "name": "BR-029 River Bridge",
+      "district": "Dehradun",
+      "progress": 96,
+      "status": "On Track",
+      "budget_allocated": 290,
+      "budget_used": 232,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 30,
+      "name": "BR-030 River Bridge",
+      "district": "Haridwar",
+      "progress": 3,
+      "status": "On Track",
+      "budget_allocated": 295,
+      "budget_used": 236,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 31,
+      "name": "BR-031 River Bridge",
+      "district": "Pauri",
+      "progress": 10,
+      "status": "On Track",
+      "budget_allocated": 300,
+      "budget_used": 240,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 32,
+      "name": "BR-032 River Bridge",
+      "district": "Tehri",
+      "progress": 17,
+      "status": "On Track",
+      "budget_allocated": 305,
+      "budget_used": 244,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 33,
+      "name": "BR-033 River Bridge",
+      "district": "Nainital",
+      "progress": 24,
+      "status": "On Track",
+      "budget_allocated": 310,
+      "budget_used": 248,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 34,
+      "name": "BR-034 River Bridge",
+      "district": "Almora",
+      "progress": 31,
+      "status": "On Track",
+      "budget_allocated": 315,
+      "budget_used": 252,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 35,
+      "name": "BR-035 River Bridge",
+      "district": "Uttarkashi",
+      "progress": 38,
+      "status": "On Track",
+      "budget_allocated": 320,
+      "budget_used": 256,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 36,
+      "name": "BR-036 River Bridge",
+      "district": "Dehradun",
+      "progress": 45,
+      "status": "On Track",
+      "budget_allocated": 325,
+      "budget_used": 260,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 37,
+      "name": "BR-037 River Bridge",
+      "district": "Haridwar",
+      "progress": 52,
+      "status": "On Track",
+      "budget_allocated": 330,
+      "budget_used": 264,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 38,
+      "name": "BR-038 River Bridge",
+      "district": "Pauri",
+      "progress": 59,
+      "status": "On Track",
+      "budget_allocated": 335,
+      "budget_used": 268,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 39,
+      "name": "BR-039 River Bridge",
+      "district": "Tehri",
+      "progress": 66,
+      "status": "On Track",
+      "budget_allocated": 340,
+      "budget_used": 272,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 40,
+      "name": "BR-040 River Bridge",
+      "district": "Nainital",
+      "progress": 73,
+      "status": "On Track",
+      "budget_allocated": 345,
+      "budget_used": 276,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 41,
+      "name": "BR-041 River Bridge",
+      "district": "Almora",
+      "progress": 80,
+      "status": "On Track",
+      "budget_allocated": 350,
+      "budget_used": 280,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 42,
+      "name": "BR-042 River Bridge",
+      "district": "Uttarkashi",
+      "progress": 87,
+      "status": "On Track",
+      "budget_allocated": 355,
+      "budget_used": 284,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 43,
+      "name": "BR-043 River Bridge",
+      "district": "Dehradun",
+      "progress": 94,
+      "status": "On Track",
+      "budget_allocated": 360,
+      "budget_used": 288,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 44,
+      "name": "BR-044 River Bridge",
+      "district": "Haridwar",
+      "progress": 1,
+      "status": "On Track",
+      "budget_allocated": 365,
+      "budget_used": 292,
+      "last_updated": "2025-01-10"
+    },
+    {
+      "id": 45,
+      "name": "BR-045 River Bridge",
+      "district": "Pauri",
+      "progress": 8,
+      "status": "On Track",
+      "budget_allocated": 370,
+      "budget_used": 296,
+      "last_updated": "2025-01-10"
+    }
+  ]
+}
