@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BIIU — Premier MIS Dashboard (Government Portal Style)</title>
+
+<!-- Tailwind for layout; Chart.js for charts -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#f3f6fb; color:#0f172a; }
+  header { background: linear-gradient(90deg,#0b5ed7,#1e40af); color: white; }
+  .card { background:white; border-radius:10px; box-shadow: 0 6px 18px rgba(11,35,77,0.06); }
+  .kpi-title { color:#64748b; font-size:12px; }
+  .kpi-value { font-weight:700; font-size:20px; color:#0f172a; }
+  .small { color:#64748b; font-size:12px; }
+  table th, table td { padding:8px 10px; border-bottom:1px solid #eef2f7; text-align:left; font-size:13px; }
+  th.sortable { cursor:pointer; color:#0b5ed7; }
+  .badge { padding:4px 8px; border-radius:6px; font-weight:700; color:white; display:inline-block; font-size:12px; }
+  .badge-green { background:#059669; }
+  .badge-red { background:#b91c1c; }
+  .badge-amber { background:#f97316; }
+  .badge-blue { background:#0ea5e9; }
+  .gantt-bar { height:14px; border-radius:6px; display:inline-block; }
+  .heat { width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; color:white; font-weight:700; }
+  @media print { .no-print { display:none; } .card { box-shadow:none; border:1px solid #ddd; } }
+</style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="py-5">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Bridge Improvement in Uttarakhand — MIS (Premier)</h1>
+        <div class="small mt-1">ADB-assisted | Project Management Unit (PMU) — PWD Uttarakhand</div>
+      </div>
+      <div class="text-right">
+        <div class="small">Report snapshot</div>
+        <div id="snapshotDate" class="font-semibold"></div>
+        <div class="small mt-2 no-print">Reference Excel: <a href="/mnt/data/BIIU_MIS_Enhanced_Dashboard - Working.xlsx" style="text-decoration:underline;color:#dbeafe">/mnt/data/BIIU_MIS_Enhanced_Dashboard - Working.xlsx</a></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-6">
+    <!-- KPI Grid -->
+    <section id="kpiGrid" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+      <!-- KPI cards injected by script -->
+    </section>
+
+    <!-- Top charts -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <div class="card p-4" style="height:330px;">
+        <div class="flex justify-between items-center mb-3">
+          <div><strong>Project Status</strong><div class="small">Overall status distribution</div></div>
+          <div class="small">Auto-updating</div>
+        </div>
+        <canvas id="statusPie" style="max-height:240px;"></canvas>
+      </div>
+
+      <div class="card p-4" style="height:330px;">
+        <div class="mb-2"><strong>Avg Completion by District</strong><div class="small">District-level performance</div></div>
+        <canvas id="districtBar" style="max-height:240px;"></canvas>
+      </div>
+
+      <div class="card p-4" style="height:330px;">
+        <div class="mb-2"><strong>Funding Utilization</strong><div class="small">Contract vs Expenditure by district (Lakh INR)</div></div>
+        <canvas id="fundLine" style="max-height:240px;"></canvas>
+      </div>
+    </section>
+
+    <!-- Middle area: heatmap + contractor ranking + alerts -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <div class="card p-4">
+        <div><strong>District Performance Heatmap</strong><div class="small">Quick view of district averages</div></div>
+        <div id="heatGrid" class="grid grid-cols-3 gap-3 mt-3"></div>
+      </div>
+
+      <div class="card p-4">
+        <div><strong>Top Contractors (by Avg Progress)</strong><div class="small">Performance snapshot</div></div>
+        <div id="contractorList" class="mt-3"></div>
+      </div>
+
+      <div class="card p-4">
+        <div><strong>Top Alerts</strong><div class="small">Immediate attention</div></div>
+        <ul id="alerts" class="mt-3 space-y-2"></ul>
+      </div>
+    </section>
+
+    <!-- Large table and Gantt -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="card p-4 lg:col-span-2">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <strong>Bridge Inventory</strong>
+            <div class="small">Use search box to quickly find a bridge</div>
+          </div>
+          <div class="small no-print">Search: <input id="search" class="border rounded px-2 py-1" placeholder="Bridge name / district / contractor" /></div>
+        </div>
+
+        <div style="max-height:420px; overflow:auto;">
+          <table style="width:100%;">
+            <thead>
+              <tr>
+                <th class="sortable" data-key="Project_ID">Project ID ▲</th>
+                <th class="sortable" data-key="Bridge_Name">Name</th>
+                <th class="sortable" data-key="District">District</th>
+                <th class="sortable" data-key="Completion_pct">Progress</th>
+                <th class="sortable" data-key="Status">Status</th>
+                <th class="sortable" data-key="Contract_Value_INR">Contract (Cr)</th>
+                <th class="sortable" data-key="Expenditure_INR">Spent (Cr)</th>
+                <th>Safeguard</th>
+              </tr>
+            </thead>
+            <tbody id="tableRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card p-4">
+        <div><strong>Gantt-like Milestones (sample)</strong><div class="small">Compact timeline bands</div></div>
+        <div id="ganttWrap" class="mt-3" style="max-height:420px; overflow:auto;"></div>
+      </div>
+    </section>
+
+    <div class="mt-6 small">This file is offline and self-contained; data is simulated for a realistic ADB-style MIS demonstration. Use <strong>Ctrl+P</strong> to save as PDF for offline submission.</div>
+  </main>
+
+<script>
+/* ============================
+   Premier MIS: data generator
+   ============================ */
+
+(function(){
+  // Seeded RNG for deterministic demo
+  let seed = 987654321;
+  function rnd(){ seed = (1103515245 * seed + 12345) % 2147483647; return seed/2147483647; }
+
+  const districts = ["Dehradun","Haridwar","Pauri","Tehri","Almora","Nainital","Chamoli","Rudraprayag","Uttarkashi","Bageshwar","Udham Singh Nagar"];
+  const contractors = ["HNB Infra Pvt Ltd","Uttarakhand Buildcon","ABC Infra JV","Himalayan Engineering Co.","Ganga Construction","Sahyadri Builders","NorthEast Constructions"];
+  const types = ["Concrete Girder","Steel Truss","Arch","Suspension","Box Culvert","Beam"];
+
+  function currencyINR(x){ return "₹" + (x/10000000).toFixed(2) + " Cr"; } // show in Crores
+
+  // create overview (realistic)
+  const overview = {
+    total_bridges: 60,
+    bridgesCompleted: 11,
+    averageProgress: 58.4,
+    delayedProjects: 9,
+    activeDistricts: districts.length,
+    totalBudgetCr: 1400,
+    budgetUtilizedCr: 860,
+    safeguardFlags: 6,
+    pendingClearances: 10,
+    lastUpdated: new Date().toISOString().slice(0,10)
+  };
+
+  // create 60 bridges
+  const bridges = [];
+  for(let i=0;i<overview.total_bridges;i++){
+    const id = 'P' + String(i+1).padStart(3,'0');
+    const name = `BR-${String(i+1).padStart(3,'0')} ${["Bhagirathi","Sungri","Kedar","Pindar","Goriganga"][i%5]} Bridge`;
+    const district = districts[i % districts.length];
+    const contractor = contractors[i % contractors.length];
+    const type = types[i % types.length];
+    const span = 30 + Math.floor(rnd()*250);
+    const yearBuilt = 1970 + Math.floor(rnd()*45);
+    const startDate = new Date(2024,0,1); startDate.setDate(startDate.getDate() + Math.floor(rnd()*420));
+    const plannedDuration = 180 + Math.floor(rnd()*900);
+    const endDate = new Date(startDate.getTime() + plannedDuration*24*3600000);
+    const completion = Math.max(0, Math.min(100, Math.round(50 + (rnd()-0.45)*40)));
+    const status = completion >= 100 ? "Completed" : (rnd()<0.62 ? "On Track" : (rnd()<0.86 ? "Delayed" : "At Risk"));
+    const contractValue = Math.round((80 + rnd()*1100) * 100000); // INR
+    const expenditure = Math.round(contractValue * (0.2 + rnd()*0.75));
+    const safeguardNon = rnd() < 0.12;
+    const openIssues = Math.floor(rnd()*4);
+    const lastUpdated = new Date(); lastUpdated.setDate(lastUpdated.getDate() - Math.floor(rnd()*30));
+
+    bridges.push({
+      Project_ID: id,
+      Bridge_Name: name,
+      District: district,
+      Contractor: contractor,
+      Bridge_Type: type,
+      Span_m: span,
+      Year_Built: yearBuilt,
+      Planned_Start: startDate.toISOString().slice(0,10),
+      Planned_End: endDate.toISOString().slice(0,10),
+      Completion_pct: completion,
+      Status: status,
+      Contract_Value_INR: contractValue,
+      Expenditure_INR: expenditure,
+      Safeguard_NonCompliant: safeguardNon,
+      Open_Issues: openIssues,
+      Last_Updated: lastUpdated.toISOString().slice(0,10)
+    });
+  }
+
+  // Expose to window for use
+  window.MIS = { overview, bridges, districts, contractors };
+})();
+
+/* ============================
+   Rendering & charts
+   ============================ */
+
+document.getElementById('snapshotDate').textContent = window.MIS.overview.lastUpdated;
+
+// helper formatting
+function formatINR(x){ return "₹" + (x/10000000).toFixed(2) + " Cr"; }
+function fmtNum(x){ return (typeof x === 'number') ? x.toLocaleString('en-IN') : x; }
+
+// KPI rendering
+function renderKPIs(){
+  const kcont = document.getElementById('kpiGrid');
+  kcont.innerHTML = '';
+  const o = window.MIS.overview;
+
+  const cards = [
+    {t:'Total Bridges', v:o.total_bridges},
+    {t:'Total Contract Value', v:formatINR(o.totalBudgetCr*10000000)},
+    {t:'Total Disbursed', v:formatINR(o.budgetUtilizedCr*10000000)},
+    {t:'Avg Physical Progress', v:o.averageProgress.toFixed(1) + '%'},
+    {t:'Avg Financial Progress', v:o.avg_financial_progress_pct ? o.avg_financial_progress_pct + '%' : '—'},
+    {t:'Delayed Projects', v:o.delayedProjects},
+    {t:'Safeguard Flags', v:o.safeguardFlags},
+    {t:'Districts Covered', v:o.activeDistricts}
+  ];
+
+  cards.forEach(c=>{
+    const div = document.createElement('div');
+    div.className='card p-4';
+    div.innerHTML = `<div class="kpi-title">${c.t}</div><div class="kpi-value mt-2">${c.v}</div>`;
+    kcont.appendChild(div);
+  });
+}
+
+// charts objects
+let chartStatus, chartDistrict, chartFund;
+
+// create charts (empty)
+function createCharts(){
+  const ctxS = document.getElementById('statusPie').getContext('2d');
+  chartStatus = new Chart(ctxS, {type:'pie', data:{labels:[], datasets:[{data:[], backgroundColor:['#0ea5e9','#f97316','#ef4444','#059669']}]}});
+
+  const ctxD = document.getElementById('districtBar').getContext('2d');
+  chartDistrict = new Chart(ctxD, {type:'bar', data:{labels:[], datasets:[{label:'Avg Completion %', data:[], backgroundColor:'#2563eb'}]}, options:{indexAxis:'y'}});
+
+  const ctxF = document.getElementById('fundLine').getContext('2d');
+  chartFund = new Chart(ctxF, {type:'line', data:{labels:[], datasets:[]}, options:{responsive:true}});
+}
+
+// update charts and table based on current data
+function refreshDashboard(){
+  const rows = window.MIS.bridges.slice(); // copy
+
+  // KPIs: recompute overview values lightly
+  const avgPhys = Math.round(rows.reduce((s,r)=>s+r.Completion_pct,0)/rows.length);
+  const totalContract = rows.reduce((s,r)=>s+r.Contract_Value_INR,0);
+  const totalSpent = rows.reduce((s,r)=>s+r.Expenditure_INR,0);
+  const delayed = rows.filter(r => (r.Status||'').toLowerCase().includes('delay')).length;
+  window.MIS.overview.averageProgress = avgPhys;
+  window.MIS.overview.totalBudgetCr = Math.round(totalContract/10000000);
+  window.MIS.overview.budgetUtilizedCr = Math.round(totalSpent/10000000);
+  window.MIS.overview.delayedProjects = delayed;
+  renderKPIs();
+
+  // Status distribution
+  const statusCounts = {};
+  rows.forEach(r => statusCounts[r.Status] = (statusCounts[r.Status]||0)+1);
+  chartStatus.data.labels = Object.keys(statusCounts);
+  chartStatus.data.datasets[0].data = Object.values(statusCounts);
+  chartStatus.update();
+
+  // District averages
+  const distMap = {};
+  rows.forEach(r => {
+    if(!distMap[r.District]) distMap[r.District] = {sum:0,count:0};
+    distMap[r.District].sum += r.Completion_pct; distMap[r.District].count += 1;
+  });
+  const dlabels = Object.keys(distMap);
+  const davgs = dlabels.map(d => Math.round(distMap[d].sum/distMap[d].count));
+  chartDistrict.data.labels = dlabels;
+  chartDistrict.data.datasets[0].data = davgs;
+  chartDistrict.update();
+
+  // Funding by district (contract vs spent in Lakh INR)
+  const fundMap = {};
+  rows.forEach(r=>{
+    if(!fundMap[r.District]) fundMap[r.District] = {c:0,s:0};
+    fundMap[r.District].c += r.Contract_Value_INR; fundMap[r.District].s += r.Expenditure_INR;
+  });
+  const flabels = Object.keys(fundMap);
+  const fcontract = flabels.map(d=> Math.round(fundMap[d].c/100000));
+  const fspent = flabels.map(d=> Math.round(fundMap[d].s/100000));
+  chartFund.data.labels = flabels;
+  chartFund.data.datasets = [
+    {label:'Contract (Lakh INR)', data:fcontract, borderColor:'#0b5ed7', tension:0.3},
+    {label:'Spent (Lakh INR)', data:fspent, borderColor:'#16a34a', tension:0.3}
+  ];
+  chartFund.update();
+
+  // Heatmap
+  const heatGrid = document.getElementById('heatGrid'); heatGrid.innerHTML = '';
+  dlabels.forEach((d,i)=>{
+    const val = davgs[i];
+    // compute color (green high, red low)
+    const green = Math.round(200 * (val/100));
+    const red = Math.round(200 * (1 - val/100));
+    const color = `rgb(${red},${green},80)`;
+    const div = document.createElement('div');
+    div.className = 'heat';
+    div.style.background = color;
+    div.title = `${d} — Avg ${val}%`;
+    div.innerHTML = `<div style="text-align:center;"><div style="font-size:14px">${val}%</div><div style="font-size:11px">${d.split(' ')[0]}</div></div>`;
+    heatGrid.appendChild(div);
+  });
+
+  // Contractor ranking
+  const contractorMap = {};
+  rows.forEach(r => {
+    if(!contractorMap[r.Contractor]) contractorMap[r.Contractor] = {sum:0,count:0};
+    contractorMap[r.Contractor].sum += r.Completion_pct; contractorMap[r.Contractor].count += 1;
+  });
+  const contractorList = Object.keys(contractorMap).map(k=>({name:k,avg:Math.round(contractorMap[k].sum/contractorMap[k].count)}));
+  contractorList.sort((a,b)=>b.avg - a.avg);
+  const contractDiv = document.getElementById('contractorList'); contractDiv.innerHTML = '';
+  contractorList.slice(0,6).forEach(c=>{
+    const el = document.createElement('div');
+    el.className = 'mb-3';
+    el.innerHTML = `<div style="font-weight:700">${c.name}</div><div class="small">Avg progress: ${c.avg}%</div>`;
+    contractDiv.appendChild(el);
+  });
+
+  // Alerts
+  const alerts = [];
+  // > Overrun
+  rows.filter(r=> r.Expenditure_INR > r.Contract_Value_INR * 0.95).slice(0,4).forEach(r=> alerts.push({t:'Potential Overrun', m:`${r.Project_ID} — ${r.Bridge_Name} (spent ${formatINR(r.Expenditure_INR)})`}));
+  // > Delays
+  rows.filter(r=> r.Status && r.Status.toLowerCase().includes('delay')).slice(0,4).forEach(r=> alerts.push({t:'Delay', m:`${r.Project_ID} — ${r.Bridge_Name} (${r.District})`}));
+  // > Safeguard
+  rows.filter(r=> r.Safeguard_NonCompliant).slice(0,4).forEach(r=> alerts.push({t:'Safeguard', m:`${r.Project_ID} — ${r.Bridge_Name} flagged`}));
+
+  const alertsEl = document.getElementById('alerts'); alertsEl.innerHTML = '';
+  alerts.forEach(a=>{
+    const li = document.createElement('li');
+    li.innerHTML = `<div style="font-weight:700">${a.t}</div><div class="small">${a.m}</div>`;
+    alertsEl.appendChild(li);
+  });
+
+  // Table
+  renderTable(rows);
+  // Gantt (compact)
+  renderGantt(rows);
+}
+
+// render table rows
+function renderTable(rows){
+  const tbody = document.getElementById('tableRows');
+  tbody.innerHTML = '';
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    const spentCr = (r.Expenditure_INR/10000000).toFixed(2);
+    const contractCr = (r.Contract_Value_INR/10000000).toFixed(2);
+    const sf = r.Safeguard_NonCompliant ? '<span class="badge badge-red">NC</span>' : '<span class="badge badge-green">OK</span>';
+    tr.innerHTML = `<td>${r.Project_ID}</td>
+                    <td>${r.Bridge_Name}</td>
+                    <td>${r.District}</td>
+                    <td>${r.Completion_pct}%</td>
+                    <td>${statusToLabel(r.Status)}</td>
+                    <td>${contractCr}</td>
+                    <td>${spentCr}</td>
+                    <td>${sf}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// status label
+function statusToLabel(s){
+  if(!s) return '';
+  s = s.toLowerCase();
+  if(s.includes('delay')) return '<span class="badge badge-red">Delayed</span>';
+  if(s.includes('risk')) return '<span class="badge badge-amber">At Risk</span>';
+  if(s.includes('complete')) return '<span class="badge badge-green">Completed</span>';
+  return '<span class="badge badge-blue">On Track</span>';
+}
+
+// simple gantt (bars proportionate to completion)
+function renderGantt(rows){
+  const wrap = document.getElementById('ganttWrap');
+  wrap.innerHTML = '';
+  rows.slice(0,20).forEach(r=>{
+    const row = document.createElement('div');
+    row.style.display='flex'; row.style.alignItems='center'; row.style.justifyContent='space-between'; row.style.marginBottom='8px';
+    const left = document.createElement('div'); left.style.width='38%'; left.innerHTML = `<div style="font-weight:700">${r.Project_ID} — ${r.Bridge_Name}</div><div class="small">${r.District} • ${r.Contractor}</div>`;
+    const right = document.createElement('div'); right.style.width='58%';
+    const percent = r.Completion_pct;
+    const barBg = document.createElement('div'); barBg.style.background='#eef2f7'; barBg.style.borderRadius='8px'; barBg.style.height='18px';
+    const bar = document.createElement('div'); bar.style.width = percent + '%'; bar.style.height='100%'; bar.style.borderRadius='8px';
+    bar.style.background = percent > 80 ? '#059669' : (percent > 50 ? '#16a34a' : (percent > 25 ? '#f97316' : '#ef4444'));
+    barBg.appendChild(bar);
+    right.appendChild(barBg);
+    row.appendChild(left); row.appendChild(right);
+    wrap.appendChild(row);
+  });
+}
+
+/* ============================
+   Interaction: search & sort
+   ============================ */
+document.getElementById('search').addEventListener('input', function(e){
+  const q = e.target.value.toLowerCase();
+  const filtered = window.MIS.bridges.filter(r=> (r.Bridge_Name||'').toLowerCase().includes(q) || (r.District||'').toLowerCase().includes(q) || (r.Contractor||'').toLowerCase().includes(q));
+  renderTable(filtered);
+  renderGantt(filtered);
+  buildAlerts(filtered);
+});
+
+// Sorting by table headers
+document.querySelectorAll('th.sortable').forEach(th=>{
+  th.addEventListener('click', function(){
+    const key = th.getAttribute('data-key');
+    // toggle direction stored on element
+    const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc';
+    th.dataset.dir = dir;
+    // reset arrow marks
+    document.querySelectorAll('th.sortable').forEach(h=>h.innerHTML = h.innerText);
+    th.innerHTML = th.innerText + (dir==='asc' ? ' ▲' : ' ▼');
+    const rows = window.MIS.bridges.slice().sort((a,b)=>{
+      const va = a[key]; const vb = b[key];
+      if(typeof va === 'number' && typeof vb === 'number') return dir==='asc' ? va - vb : vb - va;
+      return dir==='asc' ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+    });
+    renderTable(rows);
+    renderGantt(rows);
+    buildAlerts(rows);
+  });
+});
+
+/* ============================
+   Auto-update simulation (no dropdowns)
+   ============================ */
+
+// Every 10s apply small random changes to a few projects to simulate live updates
+function tickUpdate(){
+  const n = Math.max(1, Math.floor(window.MIS.bridges.length * 0.03));
+  for(let i=0;i<n;i++){
+    const idx = Math.floor(Math.random()*window.MIS.bridges.length);
+    const row = window.MIS.bridges[idx];
+    // small progress bump, but not beyond 100
+    const delta = Math.round((Math.random()*8)-2); // -2..+6
+    row.Completion_pct = Math.max(0, Math.min(100, row.Completion_pct + delta));
+    // update status if complete
+    if(row.Completion_pct >= 100) row.Status = 'Completed';
+    // small spend change
+    const spendDelta = Math.round(row.Contract_Value_INR * ((Math.random()*0.02)-0.005));
+    row.Expenditure_INR = Math.max(0, row.Expenditure_INR + spendDelta);
+    // occasionally flip safeguard flag
+    if(Math.random() < 0.01) row.Safeguard_NonCompliant = !row.Safeguard_NonCompliant;
+    row.Last_Updated = new Date().toISOString().slice(0,10);
+  }
+  // Refresh visuals
+  refreshDashboard();
+}
+
+// init charts and UI
+createCharts();
+refreshDashboard();
+
+// set auto-updates every 10s
+setInterval(tickUpdate, 10000);
+
+/* ============================
+   End of script
+   ============================ */
+</script>
+
+</body>
+</html>

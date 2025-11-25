@@ -1,0 +1,196 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "bridge_name": "Birpur Steel Bridge",
+      "district": "Dehradun",
+      "contractor": "ABC Infra Ltd",
+      "funding_source": "ADB Loan 4521-IND",
+      "progress_percent": 82,
+      "status": "On Track",
+      "budget_total": 125000000,
+      "budget_used": 98000000,
+      "start_date": "2023-01-15",
+      "end_date": "2025-03-30",
+      "last_updated": "2025-02-10",
+      "safeguards": {
+        "environment": "Compliant",
+        "social": "Compliant",
+        "grievance": "No Complaints"
+      },
+      "issues": [],
+      "risk_level": "Low",
+      "coordinates": [30.3165, 78.0322],
+      "photo": "images/bridge1.jpg"
+    },
+    {
+      "id": 2,
+      "bridge_name": "Haridwar Ganga Crossing",
+      "district": "Haridwar",
+      "contractor": "Uttam Constructions",
+      "funding_source": "ADB Loan 4521-IND",
+      "progress_percent": 54,
+      "status": "Delayed",
+      "budget_total": 200000000,
+      "budget_used": 160000000,
+      "start_date": "2022-09-01",
+      "end_date": "2025-12-10",
+      "last_updated": "2025-02-12",
+      "safeguards": {
+        "environment": "Minor Issues",
+        "social": "Compliant",
+        "grievance": "2 Open Grievances"
+      },
+      "issues": ["Delay in steel supply", "Land clearance pending at Pier 3"],
+      "risk_level": "Medium",
+      "coordinates": [29.9457, 78.1642],
+      "photo": "images/bridge2.jpg"
+    },
+    {
+      "id": 3,
+      "bridge_name": "Alaknanda RCC Bridge",
+      "district": "Pauri",
+      "contractor": "Himalayan Builders",
+      "funding_source": "State Budget (Uttarakhand)",
+      "progress_percent": 33,
+      "status": "At Risk",
+      "budget_total": 145000000,
+      "budget_used": 82000000,
+      "start_date": "2023-06-01",
+      "end_date": "2026-08-22",
+      "last_updated": "2025-02-15",
+      "safeguards": {
+        "environment": "Non-Compliant",
+        "social": "Minor Issues",
+        "grievance": "4 Complaints"
+      },
+      "issues": ["Slope stabilization required", "EIA compliance pending"],
+      "risk_level": "High",
+      "coordinates": [30.1521, 78.7805],
+      "photo": "images/bridge3.jpg"
+    },
+    {
+      "id": 4,
+      "bridge_name": "Tehri Lake Approach Bridge",
+      "district": "Tehri",
+      "contractor": "Premium Infra Corp",
+      "funding_source": "ADB Loan 4521-IND",
+      "progress_percent": 66,
+      "status": "On Track",
+      "budget_total": 90000000,
+      "budget_used": 62000000,
+      "start_date": "2023-02-01",
+      "end_date": "2025-11-11",
+      "last_updated": "2025-02-08",
+      "safeguards": {
+        "environment": "Compliant",
+        "social": "Compliant",
+        "grievance": "No Complaints"
+      },
+      "issues": [],
+      "risk_level": "Low",
+      "coordinates": [30.3890, 78.4807],
+      "photo": "images/bridge4.jpg"
+    },
+
+    {
+      "id": 5,
+      "bridge_name": "Rudraprayag Mandakini Bridge",
+      "district": "Rudraprayag",
+      "contractor": "GangaTech Engineers",
+      "funding_source": "ADB Loan 4521-IND",
+      "progress_percent": 47,
+      "status": "Delayed",
+      "budget_total": 110000000,
+      "budget_used": 74000000,
+      "start_date": "2022-12-10",
+      "end_date": "2025-09-18",
+      "last_updated": "2025-02-15",
+      "safeguards": {
+        "environment": "Minor Issues",
+        "social": "Compliant",
+        "grievance": "1 Complaint"
+      },
+      "issues": ["Material supply delayed by snowfall"],
+      "risk_level": "Medium",
+      "coordinates": [30.2841, 78.9862],
+      "photo": "images/bridge5.jpg"
+    },
+
+    {
+      "id": 6,
+      "bridge_name": "Chamoli Bailey Bridge Replacement",
+      "district": "Chamoli",
+      "contractor": "HillTop Infra",
+      "funding_source": "State Budget (Uttarakhand)",
+      "progress_percent": 22,
+      "status": "At Risk",
+      "budget_total": 80000000,
+      "budget_used": 32000000,
+      "start_date": "2023-09-11",
+      "end_date": "2026-03-01",
+      "last_updated": "2025-02-13",
+      "safeguards": {
+        "environment": "Non-Compliant",
+        "social": "Major Issues",
+        "grievance": "6 Complaints"
+      },
+      "issues": [
+        "Landslide threat zone",
+        "Non-compliant waste disposal"
+      ],
+      "risk_level": "High",
+      "coordinates": [30.4040, 79.3173],
+      "photo": "images/bridge6.jpg"
+    },
+
+    {
+      "id": 7,
+      "bridge_name": "Almora Kosi River Bridge",
+      "district": "Almora",
+      "contractor": "EdgeMount Constructions",
+      "funding_source": "ADB Grant (Road Upgrade)",
+      "progress_percent": 91,
+      "status": "On Track",
+      "budget_total": 95000000,
+      "budget_used": 86500000,
+      "start_date": "2022-05-10",
+      "end_date": "2025-04-30",
+      "last_updated": "2025-02-09",
+      "safeguards": {
+        "environment": "Compliant",
+        "social": "Compliant",
+        "grievance": "No Complaints"
+      },
+      "issues": [],
+      "risk_level": "Low",
+      "coordinates": [29.5970, 79.6593],
+      "photo": "images/bridge7.jpg"
+    },
+
+    {
+      "id": 8,
+      "bridge_name": "Nainital Bhowali Road Bridge",
+      "district": "Nainital",
+      "contractor": "Kumaon InfraWorks",
+      "funding_source": "ADB Loan 4521-IND",
+      "progress_percent": 59,
+      "status": "Delayed",
+      "budget_total": 120000000,
+      "budget_used": 97000000,
+      "start_date": "2023-03-09",
+      "end_date": "2025-12-20",
+      "last_updated": "2025-02-16",
+      "safeguards": {
+        "environment": "Compliant",
+        "social": "Minor Issues",
+        "grievance": "3 Complaints"
+      },
+      "issues": ["Tree-cutting clearance pending"],
+      "risk_level": "Medium",
+      "coordinates": [29.3803, 79.4636],
+      "photo": "images/bridge8.jpg"
+    }
+
+  ]
+}
